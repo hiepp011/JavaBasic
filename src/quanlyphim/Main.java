@@ -21,9 +21,10 @@ public class Main {
 			}
 			case 3: {
 				int viTriPhim = timKiem(movie);
-				int i=0;
+				int i = 0;
 				System.out.printf("| %3d | %-10s | %-10s | %10d | %-15s | %8.1f |\n", (i + 1), movie[viTriPhim].tenPhim,
-						movie[viTriPhim].daoDien, movie[viTriPhim].namSanXuat, movie[viTriPhim].theLoai, movie[viTriPhim].danhGia);
+						movie[viTriPhim].daoDien, movie[viTriPhim].namSanXuat, movie[viTriPhim].theLoai,
+						movie[viTriPhim].danhGia);
 				break;
 			}
 			case 4: {
@@ -31,7 +32,11 @@ public class Main {
 				break;
 			}
 			case 5: {
-
+				movie = themPhim(movie);
+				break;
+			}
+			case 6: {
+				movie = xoaPhim(movie);
 				break;
 			}
 
@@ -51,11 +56,11 @@ public class Main {
 		System.out.println("|        2. Xem Danh Sách Phim     |");
 		System.out.println("|        3. Tìm Kiếm Phim          |");
 		System.out.println("|        4. Cập Nhật Thông Tin Phim|");
-		System.out.println("|        1. Thêm Phim Mới          |");
-		System.out.println("|        5. Xóa Phim               |");
-		System.out.println("|        6. Lập Hóa Đơn            |");
-		System.out.println("|        7. Thống Kê               |");
-		System.out.println("|        8. Thoát                  |");
+		System.out.println("|        5. Thêm Phim Mới          |");
+		System.out.println("|        6. Xóa Phim               |");
+		System.out.println("|        7. Lập Hóa Đơn            |");
+		System.out.println("|        8. Thống Kê               |");
+		System.out.println("|        0. Thoát                  |");
 		System.out.println("=====================================");
 		System.out.print("Nhập lựa chọn của bạn: ");
 		Scanner sc = new Scanner(System.in);
@@ -125,6 +130,81 @@ public class Main {
 		}
 		// Nếu không tìm thấy phim cần tìm, trả về -1
 		return -1;
+	}
+
+	static Phim[] themPhim(Phim[] danhSachPhim) {
+		Scanner sc = new Scanner(System.in);
+		System.out.println("Nhập số lượng phim muốn thêm:");
+		int soLuongThem = sc.nextInt();
+		sc.nextLine(); // Đọc kí tự '\n' sau khi nhập số lượng
+
+		// Tạo mảng mới có kích thước lớn hơn để chứa cả danh sách phim cũ và phim mới
+		Phim[] newDanhSachPhim = new Phim[danhSachPhim.length + soLuongThem];
+
+		// Copy danh sách phim cũ vào mảng mới
+		for (int i = 0; i < danhSachPhim.length; i++) {
+			newDanhSachPhim[i] = danhSachPhim[i];
+		}
+
+		// Thêm các phim mới
+		for (int i = danhSachPhim.length; i < danhSachPhim.length + soLuongThem; i++) {
+			System.out.println("Nhập thông tin phim thứ " + (i + 1) + ":");
+			System.out.print("Tên Phim: ");
+			String tenPhim = sc.nextLine();
+			System.out.print("Tên Đạo Diễn: ");
+			String daoDien = sc.nextLine();
+			System.out.print("Năm Sản Xuất: ");
+			int namSanXuat = sc.nextInt();
+			sc.nextLine(); // Đọc kí tự '\n' sau khi nhập số năm sản xuất
+			System.out.print("Thể Loại: ");
+			String theLoai = sc.nextLine();
+			System.out.print("Đánh Giá: ");
+			double danhGia = sc.nextDouble();
+			sc.nextLine(); // Đọc kí tự '\n' sau khi nhập đánh giá
+
+			// Tạo đối tượng Phim mới và thêm vào mảng
+			newDanhSachPhim[i] = new Phim(tenPhim, daoDien, namSanXuat, theLoai, danhGia);
+		}
+
+		System.out.println("Đã thêm " + soLuongThem + " phim mới.");
+		return newDanhSachPhim;
+	}
+
+	static Phim[] xoaPhim(Phim[] danhSachPhim) {
+		Scanner sc = new Scanner(System.in);
+		System.out.print("Nhập tên phim cần xóa: ");
+		String tenPhimCanXoa = sc.nextLine();
+
+		// Tìm chỉ số của phim cần xóa trong danh sách
+		int index = -1;
+		for (int i = 0; i < danhSachPhim.length; i++) {
+			if (danhSachPhim[i].tenPhim.equalsIgnoreCase(tenPhimCanXoa)) {
+				index = i;
+				break;
+			}
+		}
+
+		// Nếu phim không tồn tại trong danh sách
+		if (index == -1) {
+			System.out.println("Không tìm thấy phim với tên: " + tenPhimCanXoa);
+			return danhSachPhim; // Trả lại danh sách cũ nếu không tìm thấy phim
+		}
+
+		// Tạo một mảng mới với kích thước nhỏ hơn để chứa các phim sau khi xóa
+		Phim[] newDanhSachPhim = new Phim[danhSachPhim.length - 1];
+
+		// Copy các phim trước vị trí phim cần xóa
+		for (int i = 0; i < index; i++) {
+			newDanhSachPhim[i] = danhSachPhim[i];
+		}
+
+		// Copy các phim sau vị trí phim cần xóa
+		for (int i = index + 1; i < danhSachPhim.length; i++) {
+			newDanhSachPhim[i - 1] = danhSachPhim[i];
+		}
+
+		System.out.println("Phim " + tenPhimCanXoa + " đã được xóa.");
+		return newDanhSachPhim;
 	}
 
 }
