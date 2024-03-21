@@ -5,11 +5,11 @@ public class Phim {
 	public String daoDien;
 	public int namSanXuat;
 	public String theLoai;
-	public double danhGia;
+	public int danhGia;
 	
 	
 	
-	public Phim(String tenPhim, String daoDien, int namSanXuat, String theLoai, double danhGia) {
+	public Phim(String tenPhim, String daoDien, int namSanXuat, String theLoai, int danhGia) {
 		this.tenPhim = tenPhim;
 		this.daoDien = daoDien;
 		this.namSanXuat = namSanXuat;

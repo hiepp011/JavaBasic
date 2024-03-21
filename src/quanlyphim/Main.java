@@ -1,5 +1,6 @@
 package quanlyphim;
 
+import java.text.NumberFormat;
 import java.util.Scanner;
 
 public class Main {
@@ -20,15 +21,26 @@ public class Main {
 				break;
 			}
 			case 3: {
+
 				int viTriPhim = timKiem(movie);
-				int i = 0;
-				System.out.printf("| %3d | %-10s | %-10s | %10d | %-15s | %8.1f |\n", (i + 1), movie[viTriPhim].tenPhim,
-						movie[viTriPhim].daoDien, movie[viTriPhim].namSanXuat, movie[viTriPhim].theLoai,
-						movie[viTriPhim].danhGia);
+				if (viTriPhim != -1) {
+					System.out.println("-------------------------------------------------");
+					System.out.printf("| %3s | %-20s | %-20s | %-15s | %-15s | %-10s |\n", "STT", "Tên Phim",
+							"Đạo Diễn", "Năm Sản Xuất", "Thể Loại", "Đánh Giá");
+					System.out.println("-------------------------------------------------");
+					for (int i = 0; i < movie.length; i++) {
+						System.out.printf("| %3d | %-20s | %-20s | %-15d | %-15s | %-10d |\n", (viTriPhim + 1),
+								movie[viTriPhim].tenPhim, movie[viTriPhim].daoDien, movie[viTriPhim].namSanXuat,
+								movie[viTriPhim].theLoai, movie[viTriPhim].danhGia);
+					}
+					System.out.println("-------------------------------------------------");
+				} else {
+					System.out.println("Không tìm thấy phim");
+				}
 				break;
 			}
 			case 4: {
-
+				capNhatPhim(movie);
 				break;
 			}
 			case 5: {
@@ -58,21 +70,37 @@ public class Main {
 		System.out.println("|        4. Cập Nhật Thông Tin Phim|");
 		System.out.println("|        5. Thêm Phim Mới          |");
 		System.out.println("|        6. Xóa Phim               |");
-		System.out.println("|        7. Lập Hóa Đơn            |");
-		System.out.println("|        8. Thống Kê               |");
+		System.out.println("|        7. Đọc File               |");
+		System.out.println("|        8. Xuất File              |");
 		System.out.println("|        0. Thoát                  |");
 		System.out.println("=====================================");
 		System.out.print("Nhập lựa chọn của bạn: ");
 		Scanner sc = new Scanner(System.in);
-		chon = sc.nextInt();
+		chon = kiemTraDauVao(0, 8);
 		return chon;
+	}
+
+	static int kiemTraDauVao(int a, int b) {
+		Scanner sc = new Scanner(System.in);
+		while (true) {
+			try {
+				String input = sc.next();
+				int chon = Integer.parseInt(input);
+				if (chon >= a && chon <= b) {
+					return chon;
+				} else {
+					System.out.println("Bạn đã nhập sai vui lòng nhập lại");
+				}
+			} catch (NumberFormatException e) {
+				System.out.println("Nhập không hợp lệ vui lòng nhập lại");
+			}
+		}
 	}
 
 	static Phim[] nhap() {
 		Scanner sc = new Scanner(System.in);
 		System.out.print("Số lượng phim cần nhập ");
-		int n = sc.nextInt();
-		sc.nextLine();
+		int n = kiemTraDauVao(0, 1000);
 		Phim[] movie = new Phim[n];
 		for (int i = 0; i < n; i++) {
 //			movie[i] = new Phim();
@@ -88,11 +116,11 @@ public class Main {
 			System.out.print("Tên Đạo Diễn: ");
 			String daoDien = sc.nextLine();
 			System.out.print("Năm Sản Xuất: ");
-			int namSanXuat = Integer.parseInt(sc.nextLine());
+			int namSanXuat = kiemTraDauVao(0, 2024);
 			System.out.print("Thể Loại: ");
 			String theLoai = sc.nextLine();
 			System.out.print("Đánh Giá : ");
-			double danhGia = Double.parseDouble(sc.nextLine());
+			int danhGia = kiemTraDauVao(0, 100);
 			movie[i] = new Phim(tenPhim, daoDien, namSanXuat, theLoai, danhGia);
 		}
 		return movie;
@@ -102,11 +130,11 @@ public class Main {
 		if (movie != null && movie.length > 0) {
 			System.out.println("Danh Sách Phim:");
 			System.out.println("-------------------------------------------------");
-			System.out.printf("| %3s | %-10s | %-10s | %-10s | %-15s | %-10s |\n", "STT", "Tên Phim", "Đạo Diễn",
+			System.out.printf("| %3s | %-20s | %-20s | %-15s | %-15s | %-10s |\n", "STT", "Tên Phim", "Đạo Diễn",
 					"Năm Sản Xuất", "Thể Loại", "Đánh Giá");
 			System.out.println("-------------------------------------------------");
 			for (int i = 0; i < movie.length; i++) {
-				System.out.printf("| %3d | %-10s | %-10s | %10d | %-15s | %8.1f |\n", (i + 1), movie[i].tenPhim,
+				System.out.printf("| %3d | %-20s | %-20s | %-15d | %-15s | %-10d |\n", (i + 1), movie[i].tenPhim,
 						movie[i].daoDien, movie[i].namSanXuat, movie[i].theLoai, movie[i].danhGia);
 			}
 			System.out.println("-------------------------------------------------");
@@ -123,6 +151,7 @@ public class Main {
 		if (movie != null && movie.length > 0) {
 			for (int i = 0; i < movie.length; i++) {
 				if (movie[i].tenPhim.equalsIgnoreCase(tenPhimCanTim)) {
+					System.out.println("Đã tìm thấy Phim");
 					// Nếu tìm thấy phim cần tìm, trả về chỉ số của phim trong mảng
 					return i;
 				}
@@ -130,13 +159,13 @@ public class Main {
 		}
 		// Nếu không tìm thấy phim cần tìm, trả về -1
 		return -1;
+
 	}
 
 	static Phim[] themPhim(Phim[] danhSachPhim) {
 		Scanner sc = new Scanner(System.in);
 		System.out.println("Nhập số lượng phim muốn thêm:");
-		int soLuongThem = sc.nextInt();
-		sc.nextLine(); // Đọc kí tự '\n' sau khi nhập số lượng
+		int soLuongThem = kiemTraDauVao(0, 1000);
 
 		// Tạo mảng mới có kích thước lớn hơn để chứa cả danh sách phim cũ và phim mới
 		Phim[] newDanhSachPhim = new Phim[danhSachPhim.length + soLuongThem];
@@ -154,13 +183,12 @@ public class Main {
 			System.out.print("Tên Đạo Diễn: ");
 			String daoDien = sc.nextLine();
 			System.out.print("Năm Sản Xuất: ");
-			int namSanXuat = sc.nextInt();
+			int namSanXuat = kiemTraDauVao(0, 2024);
 			sc.nextLine(); // Đọc kí tự '\n' sau khi nhập số năm sản xuất
 			System.out.print("Thể Loại: ");
 			String theLoai = sc.nextLine();
 			System.out.print("Đánh Giá: ");
-			double danhGia = sc.nextDouble();
-			sc.nextLine(); // Đọc kí tự '\n' sau khi nhập đánh giá
+			int danhGia = kiemTraDauVao(0, 100);
 
 			// Tạo đối tượng Phim mới và thêm vào mảng
 			newDanhSachPhim[i] = new Phim(tenPhim, daoDien, namSanXuat, theLoai, danhGia);
@@ -205,6 +233,42 @@ public class Main {
 
 		System.out.println("Phim " + tenPhimCanXoa + " đã được xóa.");
 		return newDanhSachPhim;
+	}
+
+	static void capNhatPhim(Phim[] danhSachPhim) {
+		if (danhSachPhim == null || danhSachPhim.length == 0) {
+			System.out.println("Không có phim nào trong danh sách.");
+			return;
+		}
+
+		Scanner sc = new Scanner(System.in);
+		System.out.print("Nhập tên phim cần cập nhật: ");
+		String tenPhimCanCapNhat = sc.nextLine();
+
+		int viTriPhim = -1;
+		for (int i = 0; i < danhSachPhim.length; i++) {
+			if (danhSachPhim[i].tenPhim.equalsIgnoreCase(tenPhimCanCapNhat)) {
+				viTriPhim = i;
+				break;
+			}
+		}
+
+		if (viTriPhim == -1) {
+			System.out.println("Không tìm thấy phim: " + tenPhimCanCapNhat);
+			return;
+		}
+
+		System.out.println("Nhập thông tin mới cho phim: " + danhSachPhim[viTriPhim].tenPhim);
+		System.out.print("Tên Đạo Diễn mới: ");
+		danhSachPhim[viTriPhim].daoDien = sc.nextLine();
+		System.out.print("Năm Sản Xuất mới: ");
+		danhSachPhim[viTriPhim].namSanXuat = kiemTraDauVao(0, 2024);
+		System.out.print("Thể Loại mới: ");
+		danhSachPhim[viTriPhim].theLoai = sc.nextLine();
+		System.out.print("Đánh Giá mới: ");
+		danhSachPhim[viTriPhim].danhGia = kiemTraDauVao(0, 100);
+
+		System.out.println("Cập nhật thông tin phim thành công.");
 	}
 
 }
