@@ -1,5 +1,10 @@
 package quanlyphim;
-
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.util.ArrayList;
 import java.text.NumberFormat;
 import java.util.Scanner;
 
@@ -49,6 +54,14 @@ public class Main {
 			}
 			case 6: {
 				movie = xoaPhim(movie);
+				break;
+			}
+			case 7: {
+				movie = docFile();
+				break;
+			}
+			case 8: {
+				xuatFile(movie);
 				break;
 			}
 
@@ -184,7 +197,6 @@ public class Main {
 			String daoDien = sc.nextLine();
 			System.out.print("Năm Sản Xuất: ");
 			int namSanXuat = kiemTraDauVao(0, 2024);
-			sc.nextLine(); // Đọc kí tự '\n' sau khi nhập số năm sản xuất
 			System.out.print("Thể Loại: ");
 			String theLoai = sc.nextLine();
 			System.out.print("Đánh Giá: ");
@@ -270,5 +282,43 @@ public class Main {
 
 		System.out.println("Cập nhật thông tin phim thành công.");
 	}
+	static Phim[] docFile() {
+	    try {
+	        FileReader fr = new FileReader("danhsachphim.txt");
+	        BufferedReader br = new BufferedReader(fr);
+	        String line;
+	        ArrayList<Phim> phimList = new ArrayList<>();
+	        while ((line = br.readLine()) != null) {
+	            String[] phimInfo = line.split(", ");
+	            if (phimInfo.length == 5) {
+	                Phim phim = new Phim(phimInfo[0], phimInfo[1], Integer.parseInt(phimInfo[2]), phimInfo[3], Integer.parseInt(phimInfo[4]));
+	                phimList.add(phim);
+	            }
+	        }
+	        br.close();
+	        fr.close();
+	        System.out.println("Đọc file thành công.");
+	        return phimList.toArray(new Phim[0]);
+	    } catch (IOException e) {
+	        System.out.println("Có lỗi khi đọc file: " + e.getMessage());
+	        return null;
+	    }
+	}
+	static void xuatFile(Phim[] danhSachPhim) {
+	    try {
+	        FileWriter fw = new FileWriter("danhsachphim.txt");
+	        BufferedWriter bw = new BufferedWriter(fw);
+	        for (Phim phim : danhSachPhim) {
+	            bw.write(phim.tenPhim + ", " + phim.daoDien + ", " + phim.namSanXuat + ", " + phim.theLoai + ", " + phim.danhGia);
+	            bw.newLine();
+	        }
+	        bw.close();
+	        fw.close();
+	        System.out.println("Xuất file thành công.");
+	    } catch (IOException e) {
+	        System.out.println("Có lỗi khi xuất file: " + e.getMessage());
+	    }
+	}
+
 
 }
