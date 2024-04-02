@@ -5,17 +5,18 @@ public class Phim {
 	public String daoDien;
 	public int namSanXuat;
 	public String theLoai;
-	public int danhGia;
-	
-	
-	
-	public Phim(String tenPhim, String daoDien, int namSanXuat, String theLoai, int danhGia) {
+	public double diemTrungBinh;
+	public int soLuongDanhGia;
+
+	public Phim(String tenPhim, String daoDien, int namSanXuat, String theLoai, double diemTrungBinh,
+			int soLuongDanhGia) {
 		this.tenPhim = tenPhim;
 		this.daoDien = daoDien;
 		this.namSanXuat = namSanXuat;
 		this.theLoai = theLoai;
-		this.danhGia = danhGia;
+		this.diemTrungBinh = diemTrungBinh;
+		this.soLuongDanhGia = soLuongDanhGia;
+
 	}
-	
-	
+
 }
