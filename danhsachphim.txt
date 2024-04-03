@@ -1,2 +1,4 @@
-dsdsadsa,sdasd,2020,sdfs,4.6,1
-fsdfsdf,fsdf,32,fsfs,10.25,4
+Nhà tù Shawshank,Frank Darabont,1994,Chính kịch,8.9,5
+Bố già,Francis Ford Coppola,1972,Hình sự,9.43,10
+Kỵ sĩ bóng đêm,Christopher Nolan,2008,Hành động,7.3,6
+Kẻ đánh cắp giấc mơ,Christopher Nolan,2010,Hành động,8.0,3
